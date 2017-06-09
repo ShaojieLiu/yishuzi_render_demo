@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .element{
+            outline: 1px dashed lightblue;
+        }
+        
+        slider{
+            display: block;
+            position: relative;
+        }
+
+        .txt{
+            display: inline-block;
+            overflow: hidden;
+        }
+        .txt-ctn{
+            width: 0;
+            height: 0;
+            position: absolute;
+        }
+        .txt-texture{
+            width: 100%; height: 100%;
+            position: absolute;
+        }
+
+
+        #num1{
+            display: block;
+            position: absolute;
+            height: 6em;
+            width: 25em;
+            transform: translateX(20px) translateY(20px);
+        }
+        #num1 .txt-inner{
+            font-size: 4em
+        }
+        #num1 .txt-inner-shadow{
+            text-shadow: 0.12em 0.1em 0.2em;
+        }
+    </style>
+</head>
+<body>
+    <slider id="slider1">
+
+        <txt class="element txt" id="num1" >
+            <img class="txt-texture txt-texture-shadow" src="img/t3.jpg" style="clip-path: url(#num1-pathShadow);" />
+            <img class="txt-texture txt-texture-main" src="img/t1.jpg" style="clip-path: url(#num1-pathMain);" />
+            <!--艺术字展示时可以旋转, 但是编辑时却不可以, 这样展示比编辑的功能还要强大-->
+            <svg class="txt-ctn">
+                <clippath id="num1-pathMain">
+                    <text class="txt-inner txt-inner-main" x="0em" y="1em" >svg: clippath</text>
+                </clippath>
+                <clippath id="num1-pathShadow">
+                    <text class="txt-inner txt-inner-shadow" x="0em" y="1em" >svg: clippath</text>
+                </clippath>
+            </svg>
+        </txt>
+
+    </slider>
+
+    <br>
+    <txt class="maskText"
+        style="top: 3em;">
+        <text>Mask Text</text>
+    </txt>
+<script>
+//    setTimeout(() => location.reload(true), 1000)
+</script>
+</body>
+</html>

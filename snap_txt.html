@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>snapSvg</title>
+        <style>
+        </style>
+    </head>
+    <body>
+        <div class="num1-input">
+            <span>content: </span>
+            <input id="num1-content" name="content" type="text">
+            <span>type: </span>
+            <input id="num1-type" name="styleType" type="text">
+            <span>color: </span>
+            <input id="num1-color" name="color" type="text">
+            <br>
+            <span>fontSize: </span>
+            <input id="num1-fontSize" name="fontSize" type="text">
+            <span>fontFamily: </span>
+            <input id="num1-fontFamily" name="fontFamily" type="text">
+            <span>eg: Times New Roman,Georgia,Serif</span>
+            <br>
+
+        </div>
+        <txt id="num1">
+        </txt>
+
+<script src='./lib/snap.svg.js'></script>
+<script type="text/javascript">
+var e = (sel) => document.querySelector(sel)
+var es = (sel) => document.querySelectorAll(sel)
+var log = (...args) => console.log(...args)
+
+var txt = function(props) {
+    e('#num1').innerHTML = ''
+    e('#num1').innerHTML = `<svg id='num1-txt1'></svg>`
+    var paper = Snap(props.eleID),
+        styleTypeList = {
+            0: {
+                shadowOpacity: 0,
+                urlMain: './img/t0.jpg',
+            },
+            1: {
+
+            },
+            2: {
+                shadowPosition: ['0.0em', '1.0em'],
+                shadowBlur: [4, 4],
+                shadowOpacity: 1,
+                urlMain: "./img/t11.jpg",
+                shadowColor: '#55d'
+            }
+        }
+
+    var defaultStyle = {
+        shadowColor: '#555',
+        shadowPosition: ['0.04em', '1.04em'],
+        shadowBlur: [1, 1],
+        shadowOpacity: 0.5,
+        bottomColor: '#fff',
+        urlMain: "./img/t10.jpg"
+    }
+
+    var style = Object.assign({}, defaultStyle, styleTypeList[props.styleType], props)
+    var fontSize = style.fontSize, fontFamily = style.fontFamily, color = style.color
+
+//    log('debug style:\n', style)
+
+    var txtShadow = paper.text(...style.shadowPosition, style.content),
+        txtBottom = paper.text(0, '1em', style.content),
+//        txtReflect = paper.text(0, '1em', style.content),
+        txtMain = paper.text(0, '1em', style.content),
+        shadowF = paper.filter(Snap.filter.blur(...style.shadowBlur)),
+//        shadowF = paper.filter(Snap.filter.shadow(1, 1, 1)),
+        url0 = "./img/t0.jpg",
+        urlMain = style.urlMain,
+        imgMain = paper.image(urlMain, 0, 0, 500, 300),
+        imgShadow = paper.image(url0, 0, 0, 1366, 768),
+        imgBlank = paper.image(url0, 0, 0, 1366, 768)
+        imgReflect = paper.image(url0, 0, 0, 1366, 768)
+
+
+
+    var mainOptions = {
+        mask: imgMain,
+        fill: color,
+        fontSize,
+        fontFamily,
+    },
+    bottomOptions = {
+        mask: imgBlank,
+        fill: style.bottomColor,
+    },
+    shadowOptions = {
+        mask: imgShadow,
+        fill: style.shadowColor,
+        "fill-opacity": style.shadowOpacity,
+        filter: shadowF,
+    },
+    reflectOptions = {
+        mask: imgReflect,
+    }
+
+//    log('debug shadowF:\n', shadowF)
+    shadowOptions = Object.assign({}, mainOptions, shadowOptions)
+    bottomOptions = Object.assign({}, mainOptions, bottomOptions)
+//    reflectOptions = Object.assign({}, mainOptions, reflectOptions)
+
+    txtMain.attr(mainOptions)
+//    txtReflect.attr(reflectOptions)
+    txtBottom.attr(bottomOptions)
+    txtShadow.attr(shadowOptions)
+}
+
+var defaulOptions = {
+    content: '艺术字',
+    eleID: '#num1-txt1',
+    styleType: 2,
+    fontSize: '6em',
+    color: '#35f'
+}
+
+var bindAll = function() {
+    var ele = e('.num1-input')
+    ele.addEventListener('input', function() {
+        var obj = {}
+        es('.num1-input input').forEach((ele) => {
+            if ('' !== ele.value) {
+                obj[ele.name] = ele.value
+            }
+        })
+        var options = Object.assign({}, defaulOptions, obj)
+        txt(options)
+    })
+}
+
+var __main = function() {
+    txt(defaulOptions)
+    bindAll()
+}
+
+__main()
+
+</script>
+    </body>
+</html>
