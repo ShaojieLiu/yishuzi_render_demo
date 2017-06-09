@@ -37,9 +37,9 @@ var es = (sel) => document.querySelectorAll(sel)
 var log = (...args) => console.log(...args)
 
 var txt = function(props) {
-    e('#num1').innerHTML = ''
-    e('#num1').innerHTML = `<svg height="300px" id='num1-txt1'></svg>`
-    var paper = Snap(props.eleID),
+    e('#num1').innerHTML += `<svg height="300px" id=${props.eleID}></svg>`
+    var svg = e(`#${props.eleID}`)
+    var paper = Snap(`#${props.eleID}`),
         styleTypeList = {
             0: {
                 shadowOpacity: 0,
@@ -112,8 +112,7 @@ var txt = function(props) {
         mask: imgReflect,
         "fill-opacity": style.reflectOpacity,
     }
-
-//    log('debug shadowF:\n', shadowF)
+    log(e(`#${props.eleID} text`))
     shadowOptions = Object.assign({}, mainOptions, shadowOptions)
     bottomOptions = Object.assign({}, mainOptions, bottomOptions)
     reflectOptions = Object.assign({}, mainOptions, reflectOptions)
@@ -123,15 +122,25 @@ var txt = function(props) {
     txtReflect.attr(reflectOptions)
     txtShadow.attr(shadowOptions)
 
+    svg.style.width = e(`#${props.eleID} text`).clientWidth
+//    svg.style.height = e(`#${props.eleID} text`).clientHeight
+
 //    e('.ref').style = 'transform: rotateX(-60deg)'
 }
 
 var defaulOptions = {
     content: '艺术字',
-    eleID: '#num1-txt1',
     styleType: 2,
     fontSize: '6em',
     color: '#35f'
+}
+
+var render = function(obj) {
+    var options = Object.assign({}, defaulOptions, obj)
+    e('#num1').innerHTML = ``
+    txt(Object.assign({}, options, {eleID: 'num1-txt1',styleType: 0}))
+    txt(Object.assign({}, options, {eleID: 'num1-txt2',styleType: 1}))
+    txt(Object.assign({}, options, {eleID: 'num1-txt3',styleType: 2}))
 }
 
 var bindAll = function() {
@@ -143,14 +152,14 @@ var bindAll = function() {
                 obj[ele.name] = ele.value
             }
         })
-        var options = Object.assign({}, defaulOptions, obj)
-        txt(options)
+        render(obj)
     })
 }
 
 var __main = function() {
-    txt(defaulOptions)
+    render({})
     bindAll()
+
 }
 
 __main()
