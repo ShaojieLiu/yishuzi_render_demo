@@ -4,6 +4,10 @@
         <meta charset="utf-8">
         <title>snapSvg</title>
         <style>
+            .ref{
+                /*transform-origin: 50% 100%;*/
+                transform: scaleY(1)  rotateX(180deg) ;
+            }
         </style>
     </head>
     <body>
@@ -34,7 +38,7 @@ var log = (...args) => console.log(...args)
 
 var txt = function(props) {
     e('#num1').innerHTML = ''
-    e('#num1').innerHTML = `<svg id='num1-txt1'></svg>`
+    e('#num1').innerHTML = `<svg height="300px" id='num1-txt1'></svg>`
     var paper = Snap(props.eleID),
         styleTypeList = {
             0: {
@@ -49,9 +53,11 @@ var txt = function(props) {
                 shadowBlur: [4, 4],
                 shadowOpacity: 1,
                 urlMain: "./img/t11.jpg",
-                shadowColor: '#55d'
+                shadowColor: '#55d',
+                reflectOpacity: 0.5,
             }
         }
+
 
     var defaultStyle = {
         shadowColor: '#555',
@@ -59,27 +65,30 @@ var txt = function(props) {
         shadowBlur: [1, 1],
         shadowOpacity: 0.5,
         bottomColor: '#fff',
-        urlMain: "./img/t10.jpg"
+        urlMain: "./img/t10.jpg",
+        reflectOpacity: 0,
     }
 
     var style = Object.assign({}, defaultStyle, styleTypeList[props.styleType], props)
-    var fontSize = style.fontSize, fontFamily = style.fontFamily, color = style.color
+    var fontSize = style.fontSize,
+        fontFamily = style.fontFamily,
+        urlMain = style.urlMain,
+        color = style.color
 
 //    log('debug style:\n', style)
 
     var txtShadow = paper.text(...style.shadowPosition, style.content),
+        txtReflect = paper.text(0, '-1.15em', style.content),
         txtBottom = paper.text(0, '1em', style.content),
-//        txtReflect = paper.text(0, '1em', style.content),
         txtMain = paper.text(0, '1em', style.content),
         shadowF = paper.filter(Snap.filter.blur(...style.shadowBlur)),
 //        shadowF = paper.filter(Snap.filter.shadow(1, 1, 1)),
         url0 = "./img/t0.jpg",
-        urlMain = style.urlMain,
-        imgMain = paper.image(urlMain, 0, 0, 500, 300),
+        urlRef = "./img/t11.jpg",
+        imgMain = paper.image(urlMain, -10, 0, 500, 300),
         imgShadow = paper.image(url0, 0, 0, 1366, 768),
-        imgBlank = paper.image(url0, 0, 0, 1366, 768)
-        imgReflect = paper.image(url0, 0, 0, 1366, 768)
-
+        imgBlank = paper.image(url0, 0, 0, 1366, 768),
+        imgReflect = paper.image(urlRef, -10, -140, 1366, 200)
 
 
     var mainOptions = {
@@ -96,21 +105,25 @@ var txt = function(props) {
         mask: imgShadow,
         fill: style.shadowColor,
         "fill-opacity": style.shadowOpacity,
-        filter: shadowF,
+        filter: shadowF
     },
     reflectOptions = {
+        class: 'ref',
         mask: imgReflect,
+        "fill-opacity": style.reflectOpacity,
     }
 
 //    log('debug shadowF:\n', shadowF)
     shadowOptions = Object.assign({}, mainOptions, shadowOptions)
     bottomOptions = Object.assign({}, mainOptions, bottomOptions)
-//    reflectOptions = Object.assign({}, mainOptions, reflectOptions)
+    reflectOptions = Object.assign({}, mainOptions, reflectOptions)
 
     txtMain.attr(mainOptions)
-//    txtReflect.attr(reflectOptions)
     txtBottom.attr(bottomOptions)
+    txtReflect.attr(reflectOptions)
     txtShadow.attr(shadowOptions)
+
+//    e('.ref').style = 'transform: rotateX(-60deg)'
 }
 
 var defaulOptions = {
