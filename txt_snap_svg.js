@@ -38,7 +38,7 @@ var txt = function(props) {
                 urlMain: "./img/t1.jpg",
                 shadowColor: '#55d',
                 reflectOpacity: 0,
-                rootOpacity: 1,
+                rootOpacity: 0.6,
             }
         }
 
@@ -130,6 +130,8 @@ var render = function(obj) {
     txt(Object.assign({}, options, {fatherID: 'num2', eleID: 'num2-txt', styleType: 1}))
     txt(Object.assign({}, options, {fatherID: 'num3', eleID: 'num3-txt', styleType: 2}))
     txt(Object.assign({}, options, {fatherID: 'num4', eleID: 'num4-txt', styleType: 3}))
+    options = Object.assign({}, options, {fontSize: 50})
+    txt(Object.assign({}, options, {fatherID: 'num5', eleID: 'num5-txt', styleType: 0}))
     es('svg').forEach(function(ele) {
         ele.style.float = 'left';
     })
