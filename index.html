@@ -6,26 +6,37 @@
         <meta name="viewport" content="width=device-width">
         <title>snapSvg</title>
         <style>
+
             .txt-reflect{
                 -webkit-transform: rotateX(180deg);
             }
             .txt-root{
                 -webkit-transform: skewX(60deg) scaleY(0.3);
             }
+            .test, .content{
+                float: left;
+                clear: both;
+            }
+
         </style>
     </head>
     <body>
         <div id="num1-input"></div>
-        <txt id="num1"></txt>
-        <txt id="num2"></txt>
-        <txt id="num3"></txt>
-        <txt id="num4"></txt>
 
-        <!--<br><p>以下是测试</p>-->
-        <!--<svg id="svgtest"></svg>-->
+        <div class="content" id="num1"></div>
+        <div class="content" id="num2"></div>
+        <div class="content" id="num3"></div>
+        <div class="content" id="num4"></div>
+
+        <div class="test">
+            <p>以下是测试</p>
+            <svg id="svgtest"></svg>
+        </div>
 
 <!--<script src='./lib/snap.svg.js'></script>-->
-<script src="https://cdn.bootcss.com/snap.svg/0.5.1/snap.svg-min.js"></script>
+
+        <script src="http://cvte.oss-cn-hangzhou.aliyuncs.com/libs/snap/snap.svg.js"></script>
+        <!--<script src="https://cdn.bootcss.com/snap.svg/0.5.1/snap.svg-min.js"></script>-->
 <script src="lib/plugin.js"></script>
 <script src="./txt_snap_svg.js"></script>
 

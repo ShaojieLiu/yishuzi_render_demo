@@ -57,13 +57,7 @@ var txt = function(props) {
         txtRoot = paper.text(rootX, fontSize + rootY, style.content),
         txtBottom = paper.text(0, '1em', style.content),
         txtMain = paper.text(0, '1em', style.content),
-//        txtReflect = paper.text(0, '-1.15em', style.content),
-//        txtRoot = paper.text('-1.85em', '3.5em', style.content),
-//        txtBottom = paper.text(0, '1em', style.content),
-//        txtMain = paper.text(0, '1em', style.content),
         shadowF = paper.filter(Snap.filter.blur(...style.shadowBlur.map(function(num) {return num * style.fontSize * 0.01}))),
-//        rootF = paper.filter(Snap.filter.blur(...style.shadowBlur.map(function(num) {return num * style.fontSize * 0.01}))),
-//        shadowF = paper.filter(Snap.filter.shadow(1, 1, 1)),
         url0 = "./img/t0.jpg",
         urlRef = "./img/t11.jpg",
         imgMain = paper.image(urlMain, 0, 0, 1366, 768),
@@ -102,7 +96,7 @@ var txt = function(props) {
         "fill-opacity": style.rootOpacity,
 //        filter: rootF
     }
-
+// debugger
     var txtOptionsArr = [mainOptions, bottomOptions, reflectOptions, shadowOptions, rootOptions]
     var txtArr = [txtMain, txtBottom, txtReflect, txtShadow, txtRoot]
     txtOptionsArr = txtOptionsArr.map(function(ele) {
@@ -111,17 +105,18 @@ var txt = function(props) {
     txtArr.forEach(function(ele, index) {
         txtArr[index].attr(txtOptionsArr[index])
     })
-//    log(txtOptionsArr, txtArr)
-
+// throw error;
+// debugger
     var text = e(`#${props.eleID} text`)
+    // console.log(text.getBoundingClientRect().width)
     var imgArr = [imgMain, imgShadow, imgBlank, imgReflect, imgRoot]
     var textHeight = text.style.fontSize.slice(0, -2) * 1.4
     var svgOptions = {
-        width: text.clientWidth + 'px',
+        width: text.getBoundingClientRect().width + 'px',
         height: textHeight * props.lineHeight + 'px',
     }
     var imgOptions = {
-        width: text.clientWidth,
+        width: text.getBoundingClientRect().width,
         height: textHeight,
     }
 //    svg.style.width = '200px'
@@ -135,6 +130,9 @@ var render = function(obj) {
     txt(Object.assign({}, options, {fatherID: 'num2', eleID: 'num2-txt', styleType: 1}))
     txt(Object.assign({}, options, {fatherID: 'num3', eleID: 'num3-txt', styleType: 2}))
     txt(Object.assign({}, options, {fatherID: 'num4', eleID: 'num4-txt', styleType: 3}))
+    es('svg').forEach(function(ele) {
+        ele.style.float = 'left';
+    })
 }
 
 var bindAll = function() {
@@ -195,7 +193,7 @@ var __main = function() {
     window.InputdefaultOptionsNum1 = inputInit('num1-input')
     render()
     bindAll()
-//    svgTest()
+   svgTest()
 }
 
 __main()
